@@ -5,6 +5,7 @@ function App() {
     const [username, setUsername] = useState('')
     const [useremail, setUseremail] = useState('')
     const [userpass, setUserpass] = useState('')
+    const [usercheck, setUsercheck] = useState(false)
 
     const handleChange = e => {
 
@@ -17,6 +18,9 @@ function App() {
                 break;
             case "userpass":
                 setUserpass(e.target.value);
+                break;
+            case "usercheck":
+                setUsercheck(e.target.checked);
                 break;
             default:
                 console.log("Brak takiej wartości")
@@ -41,6 +45,10 @@ function App() {
                 <label htmlFor="password">
                     <p>Hasło:</p>
                     <input type="password" id="password" name="userpass" value={userpass} onChange={handleChange}/>
+                </label>
+                <label htmlFor="check">
+                    <input type="checkbox" id="check" name="usercheck" checked={usercheck} onChange={handleChange}/>
+                    Akceptuję warunki
                 </label>
                 <button type="submit">Zapisz się!</button>
             </form>
