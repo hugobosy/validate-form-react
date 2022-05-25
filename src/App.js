@@ -15,6 +15,7 @@ function App() {
 
     })
 
+    const [message, setMessage] = useState('');
 
     const handleChange = e => {
 
@@ -77,7 +78,6 @@ function App() {
 
         const validate = formValidate()
 
-        console.log(validate)
 
         if(validate.correct) {
             setUsername('');
@@ -92,7 +92,7 @@ function App() {
                 usercheck: false,
             })
 
-            console.log("Wiadomośc wysłana")
+            setMessage('Wiadomość została wysłana')
         } else {
             setError({
                 username: !validate.name,
@@ -101,6 +101,10 @@ function App() {
                 usercheck: !validate.check
             })
         }
+    }
+
+    if(message) {
+        setTimeout(()=> setMessage('') ,3000)
     }
 
     return (
@@ -128,6 +132,7 @@ function App() {
                 {error.usercheck && <span>Wymagana jest akceptacja warunków</span>}
                 <button type="submit">Zapisz się!</button>
             </form>
+            <h4>{message && message}</h4>
         </div>
     );
 }
