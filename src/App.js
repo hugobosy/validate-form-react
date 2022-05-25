@@ -7,12 +7,14 @@ function App() {
     const [userpass, setUserpass] = useState('')
     const [usercheck, setUsercheck] = useState(false)
 
-    const errors = {
+    const [error, setError] = useState({
         username: true,
         useremail: true,
         userpass: true,
         usercheck: true,
-    }
+
+    })
+
 
     const handleChange = e => {
 
@@ -34,8 +36,71 @@ function App() {
         }
     }
 
+    const formValidate = () => {
+        let name = false;
+        let email = false;
+        let pass = false;
+        let check = false;
+        let correct = false;
+
+        if(username.length > 10 && username.indexOf(' ') === -1) {
+            name = true;
+        }
+
+        if(useremail.indexOf('@') !== -1) {
+            email = true;
+        }
+
+        if(userpass.length >= 10) {
+            pass = true;
+        }
+
+        if(usercheck) {
+            check = true;
+        }
+
+        if(name && email && pass && check) {
+            correct = true;
+        }
+
+        return ({
+            name,
+            email,
+            pass,
+            check,
+            correct
+        })
+    }
+
     const handleForm = e => {
         e.preventDefault();
+
+        const validate = formValidate()
+
+        console.log(validate)
+
+        if(validate.correct) {
+            setUsername('');
+            setUseremail('');
+            setUserpass('');
+            setUsercheck(false)
+
+            setError({
+                username: false,
+                useremail: false,
+                userpass: false,
+                usercheck: false,
+            })
+
+            console.log("Wiadomośc wysłana")
+        } else {
+            setError({
+                username: !validate.name,
+                useremail: !validate.email,
+                userpass: !validate.pass,
+                usercheck: !validate.check
+            })
+        }
     }
 
     return (
@@ -44,23 +109,23 @@ function App() {
                 <label htmlFor="user">
                     <p>Twoje imię:</p>
                     <input type="text" id="user" name="username" value={username} onChange={handleChange}/>
-                    {errors.username && <span>Nazwa uzytkownika musi miec conajmniej 10 znaków</span>}
+                    {error.username && <span>Nazwa uzytkownika musi miec conajmniej 10 znaków</span>}
                 </label>
                 <label htmlFor="email">
                     <p>Email:</p>
                     <input type="email" id="email" name="useremail" value={useremail} onChange={handleChange}/>
-                    {errors.useremail && <span>Email musi zawierać małpkę ( @ )</span>}
+                    {error.useremail && <span>Email musi zawierać małpkę ( @ )</span>}
                 </label>
                 <label htmlFor="password">
                     <p>Hasło:</p>
                     <input type="password" id="password" name="userpass" value={userpass} onChange={handleChange}/>
-                    {errors.userpass && <span>Hasło musi składać się z conajmniej 8 znaków</span>}
+                    {error.userpass && <span>Hasło musi składać się z conajmniej 8 znaków</span>}
                 </label>
                 <label htmlFor="check">
                     <input type="checkbox" id="check" name="usercheck" checked={usercheck} onChange={handleChange}/>
                     Akceptuję warunki
                 </label>
-                {errors.usercheck && <span>Wymagana jest akceptacja warunków</span>}
+                {error.usercheck && <span>Wymagana jest akceptacja warunków</span>}
                 <button type="submit">Zapisz się!</button>
             </form>
         </div>
